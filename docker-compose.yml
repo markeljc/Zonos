@@ -6,11 +6,12 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: zonos_container
-    runtime: nvidia
-    network_mode: "host"
+    ports:
+      - "7860:7860"  # Map container port to host port
     stdin_open: true
     tty: true
     command: ["python3", "gradio_interface.py"]
     environment:
-      - NVIDIA_VISIBLE_DEVICES=0
       - GRADIO_SHARE=False
+    volumes:
+     - ./model-cache:/root/.cache/huggingface/hub  # Mount local directory for model cache
